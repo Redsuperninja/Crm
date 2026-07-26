@@ -1,3 +1,4 @@
+using Crm.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 namespace Crm;
@@ -15,6 +16,7 @@ public class Program
             options.UseNpgsql(connectionString));
 
         builder.Services.AddControllers();
+        builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
         var app = builder.Build();
 

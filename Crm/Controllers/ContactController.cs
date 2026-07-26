@@ -4,52 +4,40 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Crm.Entities;
+using Crm.Repositories;
 
 namespace Crm.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ContactController(CrmContext crmContext) : ControllerBase
+    public class ContactController(IContactRepository contactRepository) : ControllerBase
     {
         [HttpGet("")]
         public IEnumerable<Contact> Get()
         {
-            return crmContext.Contacts;
+            return contactRepository.GetAll();
         }
 
         [HttpGet("{id}")]
         public Contact? Get(int id)
         {
-            return crmContext.Contacts.FirstOrDefault(c =>  c.Id == id); //?? new Contact{Email = "not found"};
+            return contactRepository.GetById(id);
         }
 
         [HttpPost("")]
         public void Add(Contact contact)
         {
-            crmContext.Contacts.Add(contact);
-            crmContext.SaveChanges();
+            contactRepository.Add(contact);
         }
         [HttpPut("{id}")]
         public void Update(int id, Contact contact)
         {
-            var existingContact = crmContext.Contacts.FirstOrDefault(c => c.Id == id);
-            if (existingContact != null)
-            {
-                existingContact.FirstName = contact.FirstName;
-                existingContact.LastName = contact.LastName;
-                existingContact.Email = contact.Email;
-                crmContext.SaveChanges();
-            }
+            contactRepository.Update(id, contact);
         }
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var contact = crmContext.Contacts.FirstOrDefault(c => c.Id == id);
-            if (contact != null)
-            {
-                crmContext.Contacts.Remove(contact);
-                crmContext.SaveChanges();
-            }
+            contactRepository.Delete(id);
         }
     }
 }
