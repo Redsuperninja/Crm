@@ -35,24 +35,28 @@ namespace Crm.Repositories
 
         public void Update(int id, Contact contact)
         {
-            var existingContact = crmContext.Contacts.FirstOrDefault(c => c.Id == id);
-            if (existingContact != null)
-            {
-                existingContact.FirstName = contact.FirstName;
-                existingContact.LastName = contact.LastName;
-                existingContact.Email = contact.Email;
-                crmContext.SaveChanges();
-            }
+            // var existingContact = crmContext.Contacts.FirstOrDefault(c => c.Id == id);
+            // if (existingContact != null)
+            // {
+            //     existingContact.FirstName = contact.FirstName;
+            //     existingContact.LastName = contact.LastName;
+            //     existingContact.Email = contact.Email;
+            //     crmContext.SaveChanges();
+            // }
+            crmContext.Contacts.Update(contact);
+            crmContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var contact = crmContext.Contacts.FirstOrDefault(c => c.Id == id);
-            if (contact != null)
-            {
-                crmContext.Contacts.Remove(contact);
-                crmContext.SaveChanges();
-            }
+            // var contact = crmContext.Contacts.FirstOrDefault(c => c.Id == id);
+            // if (contact != null)
+            // {
+            //     crmContext.Contacts.Remove(contact);
+            //     crmContext.SaveChanges();
+            // }
+            crmContext.Contacts.Remove(new Contact { Id = id, Email = string.Empty});
+            crmContext.SaveChanges();
         }
     }
 }

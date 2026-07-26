@@ -17,6 +17,7 @@ public class Program
 
         builder.Services.AddControllers();
         builder.Services.AddScoped<IContactRepository, ContactRepository>();
+        builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
 
         var app = builder.Build();
 
