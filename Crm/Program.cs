@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 namespace Crm;
 
 public class Program
@@ -6,7 +8,11 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
         // Add services to the container.
+        builder.Services.AddDbContext<CrmContext>(options =>
+            options.UseNpgsql(connectionString));
 
         builder.Services.AddControllers();
 
